@@ -20,20 +20,20 @@
             <thead>
                 <tr>
                     <th>Funcionário</th>
+                    <th>Descrição</th>
                     <th>Tipo</th>
                     <th>Horas</th>
-                    <th>Descrição</th>
-                    <th>Ações</th>
+                    <th>Id</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${atividades}" var="atividade">
 
                     <tr>
-                        <td>${atividade.funcionario}</td>                    
+                        <td>${atividade.funcionario}</td>  
+                        <td>${atividade.descricao}</td>  
                         <td>${atividade.tipo}</td>                    
                         <td>${atividade.horas}</td>                    
-                        <td>${atividade.descricao}</td>                    
                         <td>${atividade.id}</td>                    
                     </tr>
                 </c:forEach>
