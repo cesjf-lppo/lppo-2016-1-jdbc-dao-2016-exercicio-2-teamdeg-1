@@ -18,7 +18,7 @@ public class AtividadeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getRequestURI().contains("listar.html")) {
+        if (request.getRequestURI().contains("/atividade/listar.html")) {
             List<Atividade> lista = new ArrayList<>();
             try {
                 AtividadeDAO dao = new AtividadeDAO();
@@ -31,7 +31,7 @@ public class AtividadeController extends HttpServlet {
             request.setAttribute("atividade", lista);
             request.getRequestDispatcher("/WEB-INF/listar.jsp").forward(request, response);
 
-        } else if (request.getRequestURI().contains("novo.html")) {
+        } else if (request.getRequestURI().contains("/atividade/cadastrar.html")) {
             request.getRequestDispatcher("/WEB-INF/novo.jsp").forward(request, response);
         }
     }
