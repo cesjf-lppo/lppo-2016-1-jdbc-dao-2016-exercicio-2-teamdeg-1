@@ -16,7 +16,17 @@
             </div>
             <div>
                 <label>Descrição:
-                    <input type="text" name="descricao" />
+                    <textarea name="descricao" ></textarea>
+                </label>
+            </div>
+            <div>
+                <label>Tipo:
+                <input type="text" name="tipo" />
+                </label>
+            </div>
+            <div>
+                <label>Horas:
+                <input type="number" name="horas" />
                 </label>
             </div>
             <div>

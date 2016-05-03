@@ -39,8 +39,10 @@ public class AtividadeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getRequestURI().contains("novo.html")) {
             Atividade novaAtiv = new Atividade();
-            novaAtiv.setNome(request.getParameter("nome"));
-            novaAtiv.setEndereco(request.getParameter("endereco"));
+            novaAtiv.setFuncionario(request.getParameter("funcionario"));
+            novaAtiv.setDescricao(request.getParameter("descricao"));
+            novaAtiv.setTipo(request.getParameter("tipo"));
+            novaAtiv.setHoras(Integer.parseInt(request.getParameter("horas")));
             try {
                 AtividadeDAO dao = new AtividadeDAO();
 
