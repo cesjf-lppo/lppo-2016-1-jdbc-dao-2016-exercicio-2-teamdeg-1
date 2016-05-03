@@ -1,9 +1,9 @@
-
 package br.cesjf.lppo.servlets;
 
 import br.cesjf.lppo.Atividade;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,13 +13,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AtividadeDAO {
-
+    
+    private PreparedStatement operacaoListarTodos;
+    private PreparedStatement operacaoCriar;
+    private PreparedStatement operacaoExcluirPorId;
+    
+    public AtividadeDAO() throws Exception{
+        try{
+            operacaoListarTodos = ConexaoJDBC.getInstance().prepareStatement("SELECT * FROM atividade");
+        }catch (SQLException ex){
+            Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception(ex);
+        }
+    }
     List<Atividade> listaTodos() throws Exception {
         List<Atividade> todos = new ArrayList<>();
         try {
-            Connection conexao = ConexaoJDBC.getInstance();
-            Statement operacao = conexao.createStatement();
-            ResultSet resultado = operacao.executeQuery("SELECT * FROM atividade");
+ 
+           ResultSet resultado = operacaoListarTodos.executeQuery();
             while (resultado.next()) {
                 Atividade ativ = new Atividade();
                 ativ.setId(resultado.getLong("id"));
@@ -39,9 +50,17 @@ public class AtividadeDAO {
 
     void criar(Atividade novaAtiv) throws Exception {
         try {
-            Connection conexao = ConexaoJDBC.getInstance();
-            Statement operacao = conexao.createStatement();
-            operacao.executeUpdate(String.format("INSERT INTO atividade(funcionario,tipo,horas) VALUES('%s','%s','s')", novaAtiv.getFuncionario(), novaAtiv.getTipo(), novaAtiv.getHoras()));
+            
+            operacaoCriar = ConexaoJDBC.getInstance().prepareStatement("INSERT INTO atividade(funcionario, tipo, horas) VALUES(?,?,?)", new String[]{"id"});
+            operacaoCriar.setString(1, novaAtiv.getFuncionario());
+            operacaoCriar.setString(2, novaAtiv.getTipo());
+            operacaoCriar.setInt(3, novaAtiv.getHoras());
+            
+            operacaoCriar.executeUpdate();
+            ResultSet keys = operacaoCriar.getGeneratedKeys();
+            if(keys.next()){
+                novaAtiv.setId(keys.getLong(1));
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,13 +70,15 @@ public class AtividadeDAO {
 
     void excluirPorId(Long id) throws Exception {
         try {
-            Connection conexao = ConexaoJDBC.getInstance();
-            Statement operacao = conexao.createStatement();
-            operacao.executeUpdate("DELETE FROM atividade WHERE id="+id);
+            
+            operacaoExcluirPorId = ConexaoJDBC.getInstance().prepareStatement("DELETE FROM atividade WHERE id=?");
+            operacaoExcluirPorId.setLong(1, id);
+            operacaoExcluirPorId.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AtividadeDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception(ex);        }
-        
+            throw new Exception(ex);
+        }
+
     }
 
 }
