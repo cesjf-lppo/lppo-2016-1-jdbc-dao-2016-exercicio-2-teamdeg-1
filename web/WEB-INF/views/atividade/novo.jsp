@@ -16,7 +16,7 @@
             </div>
             <div>
                 <label>Descrição:
-                    <textarea name="descricao" ></textarea>
+                    <input type="text" name="descricao" />
                 </label>
             </div>
             <div>
