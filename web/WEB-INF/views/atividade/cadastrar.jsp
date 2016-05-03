@@ -3,11 +3,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Novo Estabelecimento</title>
+        <title>Nova Atividade</title>
     </head>
     <body>
-        <jsp:include page="fragments/menu.jspf" />
-        <h1>Novo Estabelecimento</h1>
+        <h1>Nova Atividade</h1>
         <form method="post">
             <div>
                 <label>Funcionário:

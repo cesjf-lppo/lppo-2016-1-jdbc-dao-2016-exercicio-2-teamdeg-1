@@ -18,7 +18,7 @@ public class AtividadeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getRequestURI().contains("/atividade/listar.html")) {
+        if (request.getRequestURI().contains("listar.html")) {
             List<Atividade> lista = new ArrayList<>();
             try {
                 AtividadeDAO dao = new AtividadeDAO();
@@ -26,18 +26,18 @@ public class AtividadeController extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(AtividadeController.class.getName()).log(Level.SEVERE, null, ex);
                 lista = new ArrayList<Atividade>();
-                request.setAttribute("erro", "Problema ao listar os estabelecimentos!");
+                request.setAttribute("erro", "Problema ao listar as atividades!");
             }
-            request.setAttribute("atividade", lista);
-            request.getRequestDispatcher("/WEB-INF/listar.jsp").forward(request, response);
+            request.setAttribute("atividades", lista);
+            request.getRequestDispatcher("/WEB-INF/views/atividade/listar.jsp").forward(request, response);
 
-        } else if (request.getRequestURI().contains("/atividade/cadastrar.html")) {
-            request.getRequestDispatcher("/WEB-INF/novo.jsp").forward(request, response);
+        } else if (request.getRequestURI().contains("cadastrar.html")) {
+            request.getRequestDispatcher("/WEB-INF/views/atividade/cadastrar.jsp").forward(request, response);
         }
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getRequestURI().contains("novo.html")) {
+        if (request.getRequestURI().contains("cadastrar.html")) {
             Atividade novaAtiv = new Atividade();
             novaAtiv.setFuncionario(request.getParameter("funcionario"));
             novaAtiv.setDescricao(request.getParameter("descricao"));
@@ -49,7 +49,7 @@ public class AtividadeController extends HttpServlet {
                 dao.criar(novaAtiv);
             } catch (Exception ex) {
                 Logger.getLogger(AtividadeController.class.getName()).log(Level.SEVERE, null, ex);
-                response.sendRedirect("listar.html?erro=Erro ao criar o Estabelecimento!");
+                response.sendRedirect("listar.html?erro=Erro ao criar o Atividade!");
                 return;
 
             }
